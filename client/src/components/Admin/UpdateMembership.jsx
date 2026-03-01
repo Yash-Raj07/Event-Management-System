@@ -47,17 +47,19 @@ function UpdateMembership() {
       return;
     }
     try {
-      const response = await fetch(
-        `${API_BASE}/memberships/${encodeURIComponent(
-          membershipNo
-        )}/update`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify({ action, extension }),
-        }
-      );
+      const response = await fetch(`${API_BASE}/memberships`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+          membershipNo,
+          name,
+          email,
+          startDate,
+          duration,
+          welcomeEmailYes: welcomeEmail,
+        }),
+      });
       const body = await response.json().catch(() => null);
       if (!response.ok) {
         setMessage(body?.message || "Update failed.");
